@@ -1,2 +1,0 @@
-# PokerCalculator
-Poker Odds Calculator
