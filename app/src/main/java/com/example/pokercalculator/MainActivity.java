@@ -21,10 +21,13 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.util.Random;
+
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     static ImageButton currentCardTObeSet;
     static int numPlayers;
+    static double potSize = 100;
 
     Dialog myDialog;
 
@@ -47,7 +50,49 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
-    public void setMyCard(View view){
+    public void computeOdds(View view) {
+        double x = Math.random() * 100;
+        double sigma = x / 10;
+        double villanWin = (100 - x) / (numPlayers - 1);
+
+        String winPercent = String.format("%.1f", x) + "%";
+        String uncertainty = String.format("%.1f", sigma) + "%";
+
+        String villanWinPercent = String.format("%.1f", (100 - x) / (numPlayers - 1)) + "%";
+        String villanUncertainty = String.format("%.1f", sigma / (numPlayers - 1)) + "%";
+
+
+        TextView myPotSize = (TextView) findViewById(R.id.myPotSize);
+        String stringPotSize = myPotSize.getText().toString();
+        if (stringPotSize.matches("-?\\d+(\\.\\d+)?")) {
+            potSize = Double.parseDouble(stringPotSize);
+            myPotSize.setHint(stringPotSize);
+        } else {
+            potSize = 100;
+            myPotSize.setHint("100");
+        }
+
+
+        TextView myWinPercentView = (TextView) findViewById(R.id.myWinPercent);
+        TextView villanWinPercentView = (TextView) findViewById(R.id.villanWinPercent);
+        TextView betLimitView = (TextView) findViewById(R.id.betLimit);
+        TextView winTextView = (TextView) findViewById(R.id.winText);
+
+        myWinPercentView.setText("Me = " + winPercent + " +/- " + uncertainty);
+        villanWinPercentView.setText("Villan = " + villanWinPercent + " +/- " + villanUncertainty);
+        betLimitView.setText("Limit = " + (int) (potSize * x / 100));
+
+        if (x-villanWin > 2*sigma){
+            winTextView.setTextColor(getResources().getColor(R.color.green));
+        } else if (villanWin-x > 2*sigma){
+            winTextView.setTextColor(getResources().getColor(R.color.red));
+        } else {
+            winTextView.setTextColor(getResources().getColor(R.color.white));
+        }
+
+    }
+
+    public void setMyCard(View view) {
 
         currentCardTObeSet = (ImageButton) view;
 
@@ -69,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Button okButton = (Button) myDialog.findViewById(R.id.okButton);
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 String suit = spinnerSuit.getSelectedItem().toString();
                 String rank = spinnerRank.getSelectedItem().toString();
                 String dummy = suit + rank;
@@ -100,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String text = parent.getItemAtPosition(position).toString();
         numPlayers = Integer.parseInt(text);
-        Toast.makeText(parent.getContext(), ""+numPlayers, Toast.LENGTH_SHORT).show();
+        Toast.makeText(parent.getContext(), "" + numPlayers, Toast.LENGTH_SHORT).show();
         //currentCardTObeSet.setImageResource(R.drawable.c_1);
     }
 
@@ -108,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
     public void SelectCard(View v) {
 
 
