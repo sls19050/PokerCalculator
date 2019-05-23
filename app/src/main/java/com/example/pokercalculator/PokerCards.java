@@ -23,7 +23,7 @@ public class PokerCards {
             resName = suit.substring(0, 1) + "_" + rank;
         }
 
-        Toast.makeText(myContext, resName, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(myContext, resName, Toast.LENGTH_SHORT).show();
 
         int id = myContext.getResources().getIdentifier(resName, "drawable", myContext.getPackageName());
 

@@ -145,8 +145,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String text = parent.getItemAtPosition(position).toString();
         numPlayers = Integer.parseInt(text);
-        Toast.makeText(parent.getContext(), "" + numPlayers, Toast.LENGTH_SHORT).show();
-        //currentCardTObeSet.setImageResource(R.drawable.c_1);
+        //Toast.makeText(parent.getContext(), "" + numPlayers, Toast.LENGTH_SHORT).show();
     }
 
     @Override
