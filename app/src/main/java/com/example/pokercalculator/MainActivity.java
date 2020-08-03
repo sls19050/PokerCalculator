@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         String winPercent = String.format("%.1f", win) + "%";
         String uncertainty = String.format("%.1f", sigma) + "%";
 
-        String villanWinPercent = String.format("%.1f", (100 - win) / (numPlayers - 1)) + "%";
+        String villanWinPercent = String.format("%.1f", villanWin) + "%";
         String villanUncertainty = String.format("%.1f", sigma / (numPlayers - 1)) + "%";
 
 
